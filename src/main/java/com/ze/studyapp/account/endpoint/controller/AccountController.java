@@ -3,8 +3,12 @@ package com.ze.studyapp.account.endpoint.controller;
 import com.ze.studyapp.account.domain.entity.Account;
 import com.ze.studyapp.account.endpoint.controller.validator.SignUpFormValidator;
 import com.ze.studyapp.account.infra.AccountRepository;
+import com.ze.studyapp.account.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.message.SimpleMessage;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -18,8 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class AccountController {
     private final SignUpFormValidator signUpFormValidator;
-    private final AccountRepository accountRepository;
-    private final JavaMailSender javaMailSender;
+    private final AccountService accountService;
 
 
     @InitBinder("signUpForm")
@@ -38,23 +41,10 @@ public class AccountController {
     public String signUpSubmit(@Valid @ModelAttribute SignUpForm signUpForm, Errors errors) {
         if (errors.hasErrors()) return "account/sign-up";
 
-        Account account = Account.builder()
-                .email(signUpForm.getEmail())
-                .password(signUpForm.getPassword())
-                .nickname(signUpForm.getNickname())
-                .notificationSetting(Account.NotificationSetting.builder()
-                        .studyCreatedByWeb(true)
-                        .studyUpdatedByWeb(true)
-                        .studyRegistrationResultByEmailByWeb(true)
-                        .build())
-                .build();
-
-        Account newAccount = accountRepository.save(account);
-
-        newAccount.generateToken();
-
-
+        accountService.signUp(signUpForm);
+        return "redirect:/";
     }
+
 
 
 //    @PostMapping("/sign-up")
