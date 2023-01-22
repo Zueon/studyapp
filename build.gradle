@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.1'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.github.node-gradle.node' version '2.2.3'
 }
 
 group = 'com.ze'
@@ -17,6 +18,22 @@ configurations {
 repositories {
     mavenCentral()
 }
+
+node {
+    version = '16.14.0'
+    download = true
+    nodeModulesDir = file("${projectDir}/src/main/resources/static")
+
+}
+
+task copyFrontLib(type: Copy) {
+    from "${projectDir}/src/main/resources/static"
+    into "${projectDir}/build/resources/main/static/."
+
+}
+
+copyFrontLib.dependsOn npmInstall
+compileJava.dependsOn copyFrontLib
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -37,6 +54,8 @@ dependencies {
     // https://mvnrepository.com/artifact/javax.mail/mail
     implementation group: 'javax.mail', name: 'mail', version: '1.4.7'
 
+
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.5.RELEASE'
 }
 
 tasks.named('test') {

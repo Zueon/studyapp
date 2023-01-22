@@ -28,6 +28,7 @@ public class SecurityConfig  {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .requestMatchers("/node_modules/**", "/images/**")
                 .requestMatchers("/h2-console/**");
     }
 
