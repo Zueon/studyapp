@@ -1,9 +1,12 @@
-package com.ze.studyapp.domain;
+package com.ze.studyapp.account.domain.entity;
 
+import com.ze.studyapp.domain.AuditingEntity;
+import com.ze.studyapp.account.domain.support.ListStringConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 /*
@@ -37,6 +40,9 @@ public class Account extends AuditingEntity {
     @Embedded               // 해당 클래스의 필드들이 DB에서는 개별 컬럼에 매핑된다.
     private Profile profile;
 
+    @Embedded
+    private NotificationSetting notificationSetting;
+
     @Embeddable             // @Embedded 와 매핑되는 애너테이션. 해당 클래스가 Entity가 아닌 다른 Entity에 귀속될 수 있음을 의미한다.
     @NoArgsConstructor(access = AccessLevel.PROTECTED) @AllArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder @Getter @ToString
@@ -61,7 +67,10 @@ public class Account extends AuditingEntity {
         private boolean studyRegistrationResultByEmailByWeb;
         private boolean studyUpdatedByEmail;
         private boolean studyUpdatedByWeb;
+    }
 
+    public void generateToken(){
+        this.emailToken = UUID.randomUUID().toString();
 
     }
 }

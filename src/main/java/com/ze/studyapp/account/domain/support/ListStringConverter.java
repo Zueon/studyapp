@@ -1,4 +1,4 @@
-package com.ze.studyapp.domain;
+package com.ze.studyapp.account.domain.support;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
