@@ -5,6 +5,8 @@ import com.ze.studyapp.account.domain.support.ListStringConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +45,10 @@ public class Account extends AuditingEntity {
     @Embedded
     private NotificationSetting notificationSetting;
 
+    private LocalDateTime joinedAt;
+
+
+
     @Embeddable             // @Embedded 와 매핑되는 애너테이션. 해당 클래스가 Entity가 아닌 다른 Entity에 귀속될 수 있음을 의미한다.
     @NoArgsConstructor(access = AccessLevel.PROTECTED) @AllArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder @Getter @ToString
@@ -72,5 +78,10 @@ public class Account extends AuditingEntity {
     public void generateToken(){
         this.emailToken = UUID.randomUUID().toString();
 
+    }
+
+    public void verified() {
+        this.isValid = true;
+        joinedAt = LocalDateTime.now();
     }
 }
