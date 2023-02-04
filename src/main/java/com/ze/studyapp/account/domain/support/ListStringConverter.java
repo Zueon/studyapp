@@ -1,8 +1,9 @@
 package com.ze.studyapp.account.domain.support;
 
-import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Converter;
 
+
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

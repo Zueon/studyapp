@@ -4,7 +4,6 @@ import com.ze.studyapp.account.domain.entity.Account;
 import com.ze.studyapp.account.endpoint.controller.validator.SignUpFormValidator;
 import com.ze.studyapp.account.infra.AccountRepository;
 import com.ze.studyapp.account.service.AccountService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor

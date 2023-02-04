@@ -5,22 +5,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/", "/login", "/sign-up", "/check-email", "/check-email-token",
-                        "/email-login", "/check-email-login", "/login-link")
-                .permitAll()
-                .requestMatchers(HttpMethod.GET, "/profile/*").permitAll()
-                .anyRequest().authenticated());
-
+        http.authorizeRequests()
+                .mvcMatchers("/", "/login", "/sign-up", "/check-email", "/check-email-token",
+                        "/email-login", "/check-email-login", "/login-link").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
+                .anyRequest().authenticated();
         return http.build();
     }
 
@@ -28,8 +28,8 @@ public class SecurityConfig  {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .requestMatchers("/node_modules/**", "/images/**")
-                .requestMatchers("/h2-console/**");
+                .mvcMatchers("/node_modules/**", "/images/**")
+                .antMatchers("/h2-console/**");
     }
 
     @Bean

@@ -2,9 +2,9 @@ package com.ze.studyapp.account.domain.entity;
 
 import com.ze.studyapp.domain.AuditingEntity;
 import com.ze.studyapp.account.domain.support.ListStringConverter;
-import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
