@@ -1,5 +1,6 @@
 package com.ze.studyapp.account.service;
 
+import com.ze.studyapp.account.domain.UserAccount;
 import com.ze.studyapp.account.domain.entity.Account;
 import com.ze.studyapp.account.endpoint.controller.SignUpForm;
 import com.ze.studyapp.account.infra.AccountRepository;
@@ -34,10 +35,13 @@ public class AccountService {
      * *  SecurityContextHolder.getContext()로 SecurityContext를 얻는다. 전역에서 호출 가능하며 하나의 Context 객체가 반환된다.
      * *  setAuthentication을 이용하여 인증 토큰을 전달할 수 있다. 이 때, 전달해야할 토큰이 UsernamePasswordAuthenticationToken
      * * UsernamePasswordAuthenticationToken의 생성자로 nickname, password, Role 전달
+     *
+     * * -> 기존의 nickname 파라미터를 UserAccount 객체로 대체한다.
+     * * *
      * * */
     public void login(Account account) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                account.getNickname(), account.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+                new UserAccount(account), account.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
         SecurityContextHolder.getContext().setAuthentication(token);
 
     }
