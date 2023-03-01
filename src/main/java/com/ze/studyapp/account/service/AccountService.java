@@ -63,7 +63,7 @@ public class AccountService {
     }
 
 
-    private void sendVerificationEmail(Account newAccount) {
+    public void sendVerificationEmail(Account newAccount) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(newAccount.getEmail());
         mailMessage.setSubject("StudyApp 회원 가입 인증");
