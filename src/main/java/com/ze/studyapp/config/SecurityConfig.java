@@ -21,6 +21,17 @@ public class SecurityConfig  {
                         "/email-login", "/check-email-login", "/login-link").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
                 .anyRequest().authenticated();
+
+        // form 기반 인증 지원
+        http.formLogin()
+                .loginPage("/login")    // loginPage를 따로 설정해주지 않을 경우 스프링이 기본으로 로그인페이지를 생성해준다.
+                                        // 로그인 시 login 페이지로 이동하게 했으니 컨트롤러에도 추가해주도록 한다.
+                .permitAll();           // 로그인 페이지에는 인증하지 않아도 접근할 수 있도록 설정
+
+
+        // 로그아웃 시 설정 지원
+        http.logout()
+                .logoutSuccessUrl("/"); // 로그아웃 성공 시 이동할 경로
         return http.build();
     }
 
